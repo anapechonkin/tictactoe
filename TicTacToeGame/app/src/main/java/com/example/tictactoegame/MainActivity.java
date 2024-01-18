@@ -350,4 +350,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }, 2000); // 2000 milliseconds delay
 
     }
+
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("numberOfTurns", numberOfTurns);
+        outState.putInt("firstPlayerScore", firstPlayerScore);
+        outState.putInt("secondPlayerScore", secondPlayerScore);
+        outState.putBoolean("player1Turn", isFirstPlayerTurn);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        numberOfTurns = savedInstanceState.getInt("numberOfTurns");
+        firstPlayerScore = savedInstanceState.getInt("firstPlayerScore");
+        secondPlayerScore = savedInstanceState.getInt("secondPlayerScore");
+        isFirstPlayerTurn = savedInstanceState.getBoolean("isFirstPlayerTurn");
+    }
 }

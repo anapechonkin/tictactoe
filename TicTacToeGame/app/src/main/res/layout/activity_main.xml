@@ -5,9 +5,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_margin="16dp"
-        tools:context=".MainActivity">
+        android:orientation="vertical"
+        tools:context=".MainActivity" >
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -27,14 +27,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/player_1"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:freezesText="true"/>
 
             <TextView
                     android:id="@+id/score_player1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/_0"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:freezesText="true"/>
         </LinearLayout>
 
         <LinearLayout
@@ -68,7 +70,7 @@
             android:gravity="center_horizontal"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
-            android:text="@string/game_status" />
+            android:text="@string/game_status"/>
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -80,7 +82,8 @@
                 android:layout_weight="1"
                 android:textSize="60sp"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"/>
+                android:layout_marginEnd="4dp"
+                android:freezesText="true"/>
 
         <Button
                 android:id="@+id/buttonPosition_01"
@@ -89,7 +92,8 @@
                 android:layout_weight="1"
                 android:textSize="60sp"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"/>
+                android:layout_marginEnd="4dp"
+                android:freezesText="true"/>
 
         <Button
                 android:id="@+id/buttonPosition_02"
@@ -98,7 +102,8 @@
                 android:layout_weight="1"
                 android:textSize="60sp"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"/>
+                android:layout_marginEnd="4dp"
+                android:freezesText="true"/>
 
     </LinearLayout>
 
@@ -112,7 +117,8 @@
                 android:layout_weight="1"
                 android:textSize="60sp"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"/>
+                android:layout_marginEnd="4dp"
+                android:freezesText="true"/>
 
         <Button
                 android:id="@+id/buttonPosition_11"
@@ -121,7 +127,8 @@
                 android:layout_weight="1"
                 android:textSize="60sp"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"/>
+                android:layout_marginEnd="4dp"
+                android:freezesText="true"/>
 
         <Button
                 android:id="@+id/buttonPosition_12"
@@ -130,7 +137,8 @@
                 android:layout_weight="1"
                 android:textSize="60sp"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"/>
+                android:layout_marginEnd="4dp"
+                android:freezesText="true"/>
 
     </LinearLayout>
 
@@ -144,7 +152,8 @@
                 android:layout_weight="1"
                 android:textSize="60sp"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"/>
+                android:layout_marginEnd="4dp"
+                android:freezesText="true"/>
 
         <Button
                 android:id="@+id/buttonPosition_21"
@@ -153,7 +162,8 @@
                 android:layout_weight="1"
                 android:textSize="60sp"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"/>
+                android:layout_marginEnd="4dp"
+                android:freezesText="true"/>
 
         <Button
                 android:id="@+id/buttonPosition_22"
@@ -162,7 +172,8 @@
                 android:layout_weight="1"
                 android:textSize="60sp"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"/>
+                android:layout_marginEnd="4dp"
+                android:freezesText="true"/>
 
     </LinearLayout>
 
@@ -178,7 +189,9 @@
                 android:text="@string/new_game"
                 android:textSize="18sp"
                 android:layout_marginTop="14dp"
-                android:layout_marginBottom="14dp"/>
+                android:layout_marginBottom="14dp"
+                android:freezesText="true"/>
+        />
     </LinearLayout>
 
 </LinearLayout>
