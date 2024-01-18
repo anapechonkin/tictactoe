@@ -1,7 +1,6 @@
 package com.example.tictactoegame;
 
 import android.graphics.Color;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +12,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
 import android.widget.TextView;
+import androidx.core.content.ContextCompat;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -25,6 +28,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int firstPlayerScore;
     private int secondPlayerScore;
 
+    // Variables for color
+    private int purpleColor;
+    private int cyanColor;
+    private int magentaColor;
+    private int yellowColor;
+
     //TextViews for displaying names, scores, and turn status
     private TextView firstPlayerScoreTextView;
     private TextView secondPlayerScoreTextView;
@@ -35,10 +44,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //For Logging when debugging
     private static final String TAG = "TicTacToe";
 
+    private static final String DEFAULT_PLAYER_1 = "Player 1";
+    private static final String DEFAULT_PLAYER_2 = "Player 2";
+    private static final String DEFAULT_PLAYER_1_KEY = "player1Name";
+    private static final String DEFAULT_PLAYER_2_KEY = "player2Name";
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        purpleColor = ContextCompat.getColor(this, R.color.purple_500);
+        cyanColor = ContextCompat.getColor(this, R.color.cyan);
+        magentaColor = ContextCompat.getColor(this, R.color.magenta);
+        yellowColor = ContextCompat.getColor(this, R.color.yellow);
 
         //Initializing TextViews for names, scores and game status
         firstPlayerScoreTextView = findViewById(R.id.score_player1);
@@ -63,19 +83,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Setting up new game button and its click listener
         Button newGameButton = findViewById(R.id.newGame_button);
-        newGameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                resetGameBoard(); // Reset the game board and the game state
-                resetScores(); // Reset the scores of both players to zero
-            }
+        newGameButton.setOnClickListener(view -> {
+            resetGameBoard(); // Reset the game board and the game state
+            resetScores(); // Reset the scores of both players to zero
         });
     }
 
     // Method to reset the game board and game state
     private void resetGameBoard() {
-        int purpleColor = getResources().getColor(R.color.purple_500);
-
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 gameButtons[i][j].setText("");
@@ -105,8 +120,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //Update names to textview after adding in settings menu
     private void updatePlayerNames() {
-        String player1Name = getPlayerName("player1Name", "Player 1");
-        String player2Name = getPlayerName("player2Name", "Player 2");
+        String player1Name = getPlayerName(DEFAULT_PLAYER_1_KEY, DEFAULT_PLAYER_1);
+        String player2Name = getPlayerName(DEFAULT_PLAYER_2_KEY, DEFAULT_PLAYER_2);
         firstPlayerTextView.setText(player1Name);
         secondPlayerTextView.setText(player2Name);
     }
@@ -135,16 +150,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //Updating status message to see whose turn it is to make a move
     private void updateTurnStatus() {
-        String playerOneName = getPlayerName("player1Name", "Player 1");
-        String playerTwoName = getPlayerName("player2Name", "Player 2");
+        String playerOneName = getPlayerName(DEFAULT_PLAYER_1_KEY, DEFAULT_PLAYER_1);
+        String playerTwoName = getPlayerName(DEFAULT_PLAYER_2_KEY, DEFAULT_PLAYER_2);
         String turnText = isFirstPlayerTurn ? playerOneName + "'s turn" : playerTwoName + "'s turn";
         turnStatusTextView.setText(turnText);
 
         // Set text color based on whose turn it is
         if (isFirstPlayerTurn) {
-            turnStatusTextView.setTextColor(Color.parseColor("#00FFFF")); // Cyan for Player One
+            turnStatusTextView.setTextColor(cyanColor); // Cyan for Player One
         } else {
-            turnStatusTextView.setTextColor(Color.parseColor("#FF00FF")); // Magenta for Player Two
+            turnStatusTextView.setTextColor(magentaColor); // Magenta for Player Two
         }
     }
 
@@ -161,11 +176,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (isFirstPlayerTurn){
             button.setText("X");
-            button.setTextColor(Color.parseColor("#00FFFF"));// Cyan
+            button.setTextColor(cyanColor);// Cyan
             Log.d(TAG, "Set text to X");
         } else {
             button.setText("O");
-            button.setTextColor(Color.parseColor("#FF00FF"));// Magenta
+            button.setTextColor(magentaColor);// Magenta
             Log.d(TAG, "Set text to O");
         }
 
@@ -174,22 +189,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int[][] winningPositions = checkWin();
         if (winningPositions != null) {
             if (isFirstPlayerTurn) {
-                playerOneWins();
-                highlightWinningButtons(winningPositions);
-                Log.d(TAG, "Player One Wins");
+                playerWins(1);
             } else {
-                playerTwoWins();
-                highlightWinningButtons(winningPositions);
-                Log.d(TAG, "Player Two Wins");
+                playerWins(2);
             }
+            highlightWinningButtons(winningPositions);
         } else if (numberOfTurns == 9) {
             itsATie();
         } else {
-            if (isFirstPlayerTurn) {
-                isFirstPlayerTurn = false;
-            } else {
-                isFirstPlayerTurn = true;
-            }
+            isFirstPlayerTurn = !isFirstPlayerTurn;
             updateTurnStatus();
         }
     }
@@ -272,50 +280,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    //Handle situation if player 1 wins
-    private void playerOneWins(){
-        firstPlayerScore++;
+    private void playerWins(int playerNum) {
+        String winnerName;
+        if (playerNum == 1) {
+            firstPlayerScore++;
+            winnerName = getPlayerName(DEFAULT_PLAYER_1_KEY, DEFAULT_PLAYER_1);
+        } else {
+            secondPlayerScore++;
+            winnerName = getPlayerName(DEFAULT_PLAYER_2_KEY, DEFAULT_PLAYER_2);
+        }
         disableAllButtons();
         updateScore();
-        String winnerName = getPlayerName("player1Name", "Player 1");
         turnStatusTextView.setText(winnerName + " wins!");
         turnStatusTextView.setTextColor(Color.GREEN); // Set text color to green for the win
-        Log.d(TAG, "Player One Wins: " + winnerName + " wins!");
+        Log.d(TAG, winnerName + " wins!");
 
         int[][] winningPositions = checkWin();
         if (winningPositions != null) {
             highlightWinningButtons(winningPositions);
         }
 
-        new Handler().postDelayed(new Runnable() {
+        new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                resetGameButtons();
+                runOnUiThread(() -> resetGameButtons());
             }
-        }, 2000); // Delay for 2 seconds
-    }
-
-    //Handle situation if player 2 wins
-    private void playerTwoWins(){
-        secondPlayerScore++;
-        disableAllButtons();
-        updateScore();
-        String winnerName = getPlayerName("player2Name", "Player 2");
-        turnStatusTextView.setText(winnerName + " wins!");
-        turnStatusTextView.setTextColor(Color.GREEN); // Set text color to green for the win
-        Log.d(TAG, "Player Two Wins: " + winnerName + " wins!");
-
-        int[][] winningPositions = checkWin();
-        if (winningPositions != null) {
-            highlightWinningButtons(winningPositions);
-        }
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                resetGameButtons();
-            }
-        }, 2000); // Delay for 2 seconds
+        }, 2000); // 2000 milliseconds delay
     }
 
     private void itsATie(){
@@ -327,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Highlight Buttons when it's a win
     private void highlightWinningButtons(int[][] winningPositions) {
         for (int[] pos : winningPositions) {
-            gameButtons[pos[0]][pos[1]].setBackgroundColor(Color.parseColor("#FFEB3B")); // Yellow color
+            gameButtons[pos[0]][pos[1]].setBackgroundColor(yellowColor); // Yellow color
         }
     }
 
@@ -340,8 +330,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //Resetting the button board after end of game to start another game
     private void resetGameButtons(){
-
-        int purpleColor = getResources().getColor(R.color.purple_500);
         enableAllButtons();
         for (int i= 0; i<3; i++){
             for(int j=0; j<3; j++){
@@ -354,11 +342,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         isFirstPlayerTurn = true;
 
         // Delay the updateTurnStatus call
-        new Handler().postDelayed(new Runnable() {
+        new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                updateTurnStatus();
+                runOnUiThread(() -> updateTurnStatus());
             }
-        }, 2000); // Delay for 2 seconds
+        }, 2000); // 2000 milliseconds delay
+
     }
 }
