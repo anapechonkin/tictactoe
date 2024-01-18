@@ -66,9 +66,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         newGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //logic to be added for resetting the game when clicking on the new game button
+                resetGameBoard(); // Reset the game board and the game state
+                resetScores(); // Reset the scores of both players to zero
             }
         });
+    }
+
+    // Method to reset the game board and game state
+    private void resetGameBoard() {
+        int purpleColor = getResources().getColor(R.color.purple_500);
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                gameButtons[i][j].setText("");
+                gameButtons[i][j].setBackgroundColor(purpleColor); // Reset to default background
+            }
+        }
+
+        numberOfTurns = 0;
+        isFirstPlayerTurn = true;
+        updateTurnStatus();
+    }
+
+    // Method to reset the scores of both players
+    private void resetScores() {
+        firstPlayerScore = 0;
+        secondPlayerScore = 0;
+        updateScore(); // Update the score display
     }
 
 
@@ -231,9 +255,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return null;
     }
 
+    // Method to disable all buttons
+    private void disableAllButtons() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                gameButtons[i][j].setEnabled(false);
+            }
+        }
+    }
+    // Method to enable all buttons
+    private void enableAllButtons() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                gameButtons[i][j].setEnabled(true);
+            }
+        }
+    }
+
     //Handle situation if player 1 wins
     private void playerOneWins(){
         firstPlayerScore++;
+        disableAllButtons();
         updateScore();
         String winnerName = getPlayerName("player1Name", "Player 1");
         turnStatusTextView.setText(winnerName + " wins!");
@@ -256,6 +298,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Handle situation if player 2 wins
     private void playerTwoWins(){
         secondPlayerScore++;
+        disableAllButtons();
         updateScore();
         String winnerName = getPlayerName("player2Name", "Player 2");
         turnStatusTextView.setText(winnerName + " wins!");
@@ -299,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void resetGameButtons(){
 
         int purpleColor = getResources().getColor(R.color.purple_500);
-
+        enableAllButtons();
         for (int i= 0; i<3; i++){
             for(int j=0; j<3; j++){
                 gameButtons[i][j].setText("");
