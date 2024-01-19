@@ -6,4 +6,7 @@
     <string name="player_2">Player 2</string>
     <string name="_0">0</string>
     <string name="game_status">Game Status</string>
+    <string name="enter_player_1_name">Enter Player 1 Name</string>
+    <string name="enter_player_2_name">Enter Player 2 Name</string>
+    <string name="save">Save</string>
 </resources>

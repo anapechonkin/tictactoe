@@ -11,29 +11,37 @@
             android:id="@+id/editTextPlayer1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Enter Player 1 Name"
+            android:hint="@string/enter_player_1_name"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0.3" />
+            app:layout_constraintVertical_bias="0.3"
+            android:minHeight="80dp"
+            android:inputType="text"
+            android:textSize="24sp"/>
 
     <EditText
             android:id="@+id/editTextPlayer2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Enter Player 2 Name"
+            android:hint="@string/enter_player_2_name"
             app:layout_constraintTop_toBottomOf="@id/editTextPlayer1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0.1" />
+            app:layout_constraintVertical_bias="0.3"
+            android:minHeight="70dp"
+            android:inputType="text"
+            android:textSize="24sp"/>
 
     <Button
             android:id="@+id/buttonSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:text="@string/save"
+            android:textSize="24sp"
+            android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@id/editTextPlayer2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
