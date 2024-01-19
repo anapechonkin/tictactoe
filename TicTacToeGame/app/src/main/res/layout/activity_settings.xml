@@ -19,7 +19,8 @@
             app:layout_constraintVertical_bias="0.3"
             android:minHeight="80dp"
             android:inputType="text"
-            android:textSize="24sp"/>
+            android:textSize="24sp"
+            android:autofillHints="player 1 name"/>
 
     <EditText
             android:id="@+id/editTextPlayer2"
@@ -33,7 +34,8 @@
             app:layout_constraintVertical_bias="0.3"
             android:minHeight="70dp"
             android:inputType="text"
-            android:textSize="24sp"/>
+            android:textSize="24sp"
+            android:autofillHints="player 2 name"/>
 
     <Button
             android:id="@+id/buttonSave"
