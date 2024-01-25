@@ -368,6 +368,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         numberOfTurns = savedInstanceState.getInt("numberOfTurns");
         firstPlayerScore = savedInstanceState.getInt("firstPlayerScore");
         secondPlayerScore = savedInstanceState.getInt("secondPlayerScore");
-        isFirstPlayerTurn = savedInstanceState.getBoolean("isFirstPlayerTurn");
+        isFirstPlayerTurn = savedInstanceState.getBoolean("player1Turn");
     }
 }
